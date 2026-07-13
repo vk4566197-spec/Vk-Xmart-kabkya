@@ -1,19 +1,25 @@
 <body>
-
-<header style="background:#0d6efd;color:white;padding:15px;text-align:center;">
+<header style="background:#0d6efd;color:white;padding:20px;text-align:center;">
 <h1>🛍️ KabKya</h1>
 <p>Online Shopping Store</p>
 </header>
 
 <input id="search" type="text" placeholder="Search Products..."
-style="width:90%;padding:10px;margin:15px;">
+style="width:90%;padding:12px;margin:15px;border-radius:8px;border:1px solid #ccc;">
 
-<h2 style="text-align:center;">Products</h2>
+<h2 style="text-align:center;">🔥 Featured Products</h2>
 
-<div id="products" style="display:flex;flex-wrap:wrap;justify-content:center;"></div>
+<div id="products" style="
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:15px;
+padding:15px;
+">
+</div>
 
 <h2 style="text-align:center;">🛒 Cart</h2>
-<div id="cart" style="text-align:center;"></div>
+<div id="cart" style="text-align:center;font-size:18px;"></div>
 
 <script>
 
@@ -23,8 +29,8 @@ const products=[
 {name:"T-Shirt",price:499},
 {name:"Beauty Kit",price:699},
 {name:"Shoes",price:1299},
-{name:"Mobile Cover",price:299}
-];
+{name:"Mobile Cover",price:299},
+  ];
 
 let cart=[];
 
@@ -32,15 +38,22 @@ function showProducts(list){
 
 let html="";
 
-list.forEach((p,i)=>{
+list.forEach((p)=>{
 
 html+=`
-<div style="background:white;width:220px;margin:10px;padding:15px;border-radius:10px;">
-<h3>${p.name}</h3>
-<p>₹${p.price}</p>
+<div style="background:white;width:220px;padding:15px;border-radius:12px;
+box-shadow:0 2px 8px rgba(0,0,0,.15);text-align:center;">
 
-<button onclick="addCart(${i})">
-Add To Cart
+<img src="https://via.placeholder.com/180"
+style="width:100%;border-radius:10px;">
+
+<h3>${p.name}</h3>
+
+<p style="font-size:20px;color:#0d6efd;">₹${p.price}</p>
+
+<button onclick="addCart('${p.name}',${p.price})"
+style="background:#0d6efd;color:white;border:none;padding:10px 15px;border-radius:6px;cursor:pointer;">
+Add to Cart
 </button>
 
 <br><br>
@@ -51,44 +64,39 @@ Order WhatsApp
 
 </div>
 `;
-
 });
 
 document.getElementById("products").innerHTML=html;
 
 }
 
-function addCart(i){
+function addCart(name,price){
 
-cart.push(products[i]);
-
-let text="";
+cart.push({name,price});
 
 let total=0;
 
-cart.forEach(item=>{
-text+=item.name+" - ₹"+item.price+"<br>";
-total+=item.price;
-});
+cart.forEach(item=>total+=item.price);
 
-text+="<br><b>Total = ₹"+total+"</b>";
-
-document.getElementById("cart").innerHTML=text;
+document.getElementById("cart").innerHTML=
+`Items: ${cart.length}<br>Total: ₹${total}`;
 
 }
 
 showProducts(products);
+  document.getElementById("search").addEventListener("keyup",function(){
 
-document.getElementById("search").addEventListener("keyup",function(){
+const value=this.value.toLowerCase();
 
-let value=this.value.toLowerCase();
+const result=products.filter(p=>
+p.name.toLowerCase().includes(value)
+);
 
-let filter=products.filter(x=>x.name.toLowerCase().includes(value));
-
-showProducts(filter);
+showProducts(result);
 
 });
 
 </script>
 
 </body>
+</html>
